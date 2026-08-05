@@ -6,7 +6,7 @@ import '../styles/pages.css'
 
 function Dashboard() {
   const navigate = useNavigate()
-  const { resumes, setResumes, isAuthenticated, user } = useStore()
+  const { resumes, setResumes, user } = useStore()
   const [loading, setLoading] = React.useState(true)
 
   useEffect(() => {

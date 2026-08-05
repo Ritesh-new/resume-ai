@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useState, useEffect } from 'react'
 import { useStore, Resume } from '../store/store'
-import { calculateATSScore, exportToPDF } from '../utils/resume'
+import { calculateATSScore } from '../utils/resume'
 import { ExperienceSection } from '../components/ExperienceSection'
 import { EducationSection } from '../components/EducationSection'
 import { SkillsSection } from '../components/SkillsSection'
@@ -11,7 +10,6 @@ import { ATSSuggestions } from '../components/ATSSuggestions'
 import '../styles/pages.css'
 
 function Editor() {
-  const navigate = useNavigate()
   const { currentResume, setCurrentResume } = useStore()
   const [atsScore, setATSScore] = useState(0)
   const [isSaving, setIsSaving] = useState(false)
