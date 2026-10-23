@@ -46,9 +46,14 @@ function Home() {
       <header className="hero-section">
         <h1>Build Your <span>Modern Resume</span></h1>
         <p>Create a professional, ATS-optimized resume that gets you hired. Clean design, smart scoring, instant export.</p>
-        <button onClick={handleStartBuilding} className="cta-button">
-          {isAuthenticated ? 'Start Building' : 'Get Started'}
-        </button>
+        <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap', marginTop: '16px' }}>
+          <button onClick={handleStartBuilding} className="cta-button">
+            {isAuthenticated ? 'Start Building' : 'Get Started'}
+          </button>
+          <button onClick={() => navigate('/editor')} className="cta-button" style={{ background: '#059669', boxShadow: '0 4px 14px rgba(5, 150, 105, 0.3)' }}>
+            📁 Upload & Extract File
+          </button>
+        </div>
       </header>
 
       <section className="features">

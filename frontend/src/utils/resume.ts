@@ -76,11 +76,14 @@ export const exportToPDF = (resume: Resume) => {
     
     resume.education.forEach((edu) => {
       doc.setFont('Courier', 'bold')
-      doc.text(`${edu.degree} in ${edu.field}`, margin, yPosition)
+      const courseTitle = edu.course || (edu.degree ? `${edu.degree}${edu.field ? ' in ' + edu.field : ''}` : 'Education')
+      const durationText = edu.duration || edu.graduationYear || ''
+      doc.text(`${courseTitle}${durationText ? ' | ' + durationText : ''}`, margin, yPosition)
       yPosition += lineHeight
       
       doc.setFont('Courier', 'normal')
-      doc.text(`${edu.school} (${edu.graduationYear})`, margin, yPosition)
+      const detailsText = `${edu.school}${edu.percentage ? ' - Score: ' + edu.percentage : ''}`
+      doc.text(detailsText, margin, yPosition)
       yPosition += lineHeight + 2
     })
   }

@@ -19,9 +19,12 @@ export interface Resume {
   }>
   education: Array<{
     school: string
-    degree: string
-    field: string
-    graduationYear: string
+    course: string
+    percentage: string
+    duration: string
+    degree?: string
+    field?: string
+    graduationYear?: string
   }>
   skills: string[]
   template: 'modern' | 'classic' | 'minimal'

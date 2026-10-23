@@ -18,9 +18,12 @@ export interface ResumeData {
   }>
   education: Array<{
     school: string
-    degree: string
-    field: string
-    graduationYear: string
+    course?: string
+    percentage?: string
+    duration?: string
+    degree?: string
+    field?: string
+    graduationYear?: string
   }>
   skills: string[]
   template: 'modern' | 'classic' | 'minimal'
@@ -51,7 +54,7 @@ export class ATSOptimizationService {
     if (resume.education && resume.education.length > 0) {
       score += 10
       resume.education.forEach((edu) => {
-        if (edu.school && edu.degree && edu.field) {
+        if (edu.school && (edu.course || edu.degree)) {
           score += 5
         }
       })

@@ -1,9 +1,50 @@
 import express from 'express'
+import multer from 'multer'
 import { Resume } from '../models/Resume'
 import { AuthRequest, authMiddleware } from '../middleware/auth'
 import { atsOptimizationService, ResumeData } from '../services/atsOptimization'
+import { resumeParserService } from '../services/resumeParser'
 
 const router = express.Router()
+
+const upload = multer({
+  storage: multer.memoryStorage(),
+  limits: { fileSize: 10 * 1024 * 1024 }, // 10MB limit
+})
+
+// Extract resume details from uploaded file (PDF, DOCX, TXT, JSON)
+router.post('/extract', upload.single('file'), async (req: express.Request, res: express.Response) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ error: 'No file uploaded' })
+    }
+
+    const rawText = await resumeParserService.extractTextFromFile(
+      req.file.buffer,
+      req.file.mimetype,
+      req.file.originalname
+    )
+
+    if (!rawText || rawText.trim().length === 0) {
+      return res.status(400).json({ error: 'Could not extract text from the uploaded file' })
+    }
+
+    const parsedResume = resumeParserService.parseResumeText(rawText)
+    const atsScore = atsOptimizationService.calculateATSScore(parsedResume)
+
+    res.json({
+      success: true,
+      resume: {
+        ...parsedResume,
+        atsScore,
+      },
+      message: 'Resume details extracted successfully',
+    })
+  } catch (error) {
+    console.error('Resume extract error:', error)
+    res.status(500).json({ error: 'Failed to extract resume details from file' })
+  }
+})
 
 // Get all resumes for user
 router.get('/', authMiddleware, async (req: AuthRequest, res: express.Response) => {

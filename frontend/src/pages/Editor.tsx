@@ -7,6 +7,7 @@ import { SkillsSection } from '../components/SkillsSection'
 import { TemplateSelector } from '../components/TemplateSelector'
 import { ExportOptions } from '../components/ExportOptions'
 import { ATSSuggestions } from '../components/ATSSuggestions'
+import { ResumeUploader } from '../components/ResumeUploader'
 import '../styles/pages.css'
 
 function Editor() {
@@ -105,6 +106,17 @@ function Editor() {
         <div className="editor-sidebar">
           <h2>Edit Resume</h2>
           
+          {/* Custom File Upload & Extract Section */}
+          <section className="editor-section" style={{ background: '#ffffff', borderRadius: '12px', padding: '16px', border: '1px solid #e2e8f0', boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
+            <h3 style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#1e293b', marginBottom: '8px' }}>
+              <span>⚡</span> Auto-Fill from File
+            </h3>
+            <p style={{ fontSize: '13px', color: '#64748b', marginBottom: '14px', lineHeight: '1.4' }}>
+              Upload an existing resume (PDF, Word DOCX, TXT, or JSON) to automatically extract all personal information, experience, education, and skills.
+            </p>
+            <ResumeUploader />
+          </section>
+
           {/* Personal Info Section */}
           <section className="editor-section">
             <h3>Personal Information</h3>
@@ -231,15 +243,26 @@ function Editor() {
             {currentResume.education && currentResume.education.length > 0 && (
               <div className="preview-section">
                 <h3>Education</h3>
-                {currentResume.education.map((edu, index) => (
-                  <div key={index} className="education-item">
-                    <div className="item-header">
-                      <span className="item-title">{edu.degree}{edu.field ? ` in ${edu.field}` : ''}</span>
-                      {edu.graduationYear && <span className="item-subtitle">{edu.graduationYear}</span>}
+                {currentResume.education.map((edu, index) => {
+                  const courseTitle = edu.course || (edu.degree ? `${edu.degree}${edu.field ? ` in ${edu.field}` : ''}` : 'Education')
+                  const duration = edu.duration || edu.graduationYear
+                  return (
+                    <div key={index} className="education-item">
+                      <div className="item-header">
+                        <span className="item-title">{courseTitle}</span>
+                        {duration && <span className="item-subtitle">{duration}</span>}
+                      </div>
+                      <p className="item-details">
+                        <span>{edu.school}</span>
+                        {edu.percentage && (
+                          <span style={{ marginLeft: '10px', color: '#4361ee', fontWeight: 600 }}>
+                            • Score: {edu.percentage}
+                          </span>
+                        )}
+                      </p>
                     </div>
-                    <p className="item-details">{edu.school}</p>
-                  </div>
-                ))}
+                  )
+                })}
               </div>
             )}
 

@@ -29,6 +29,9 @@ const resumeSchema = new mongoose.Schema({
   education: [
     {
       school: String,
+      course: String,
+      percentage: String,
+      duration: String,
       degree: String,
       field: String,
       graduationYear: String,
