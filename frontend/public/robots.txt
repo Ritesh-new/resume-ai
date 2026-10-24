@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://resume-ai-ritesh.vercel.app/sitemap.xml
+Sitemap: https://resume-ai-nine-alpha.vercel.app/sitemap.xml
